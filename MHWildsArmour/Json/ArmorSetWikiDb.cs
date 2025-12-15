@@ -12,7 +12,6 @@ namespace MHWildsArmour.Json
     using System.Collections.Generic;
 
     using System.Globalization;
-    using MediawikiTranslator.Models.ArmorSets;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
 

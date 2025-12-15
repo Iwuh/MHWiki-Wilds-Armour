@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using MediawikiTranslator.Generators;
 using MHWildsArmour.Json;
 using System.Globalization;
 using WikiClientLibrary;
