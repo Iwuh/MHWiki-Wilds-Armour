@@ -1,0 +1,22 @@
+[
+    {
+        "_Index": 0,
+        "_Rare": "[14]RARE4",
+        "_Cost": 2000
+    },
+    {
+        "_Index": 1,
+        "_Rare": "[13]RARE5",
+        "_Cost": 3000
+    },
+    {
+        "_Index": 2,
+        "_Rare": "[12]RARE6",
+        "_Cost": 5000
+    },
+    {
+        "_Index": 3,
+        "_Rare": "[11]RARE7",
+        "_Cost": 8000
+    }
+]

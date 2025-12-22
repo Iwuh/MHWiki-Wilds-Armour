@@ -32,13 +32,13 @@ namespace MHWildsArmour
 
         static void GenerateLocalFiles(IEnumerable<ArmorSet> sets)
         {
-            File.WriteAllText(@".\output\setlistpage.txt", GenerateArmorListPage(sets));
+            File.WriteAllText(Path.Combine("output", "setlistpage.txt"), GenerateArmorListPage(sets));
 
             var setPages = GenerateArmorSetPages(sets);
             foreach (var (set, page) in sets.Zip(setPages))
             {
                 var fileName = $"{set.Series.Name}.txt";
-                File.WriteAllText($".\\output\\{fileName}", page);
+                File.WriteAllText(Path.Combine("output", fileName), page);
             }
         }
 
@@ -116,14 +116,14 @@ namespace MHWildsArmour
             {
                 armordb.Add(set.GenerateArmorSetWikiDb(order++));
             }
-            File.WriteAllText(@".\output\armordb.json", armordb.ToJson());
+            File.WriteAllText(Path.Combine("output", "armordb.json"), armordb.ToJson());
         }
 
         static void Main(string[] args)
         {
-            Directory.CreateDirectory(@".\output");
+            Directory.CreateDirectory("output");
 
-            var blacklist = File.ReadAllLines(@".\blacklist.txt");
+            var blacklist = File.ReadAllLines("blacklist.txt");
             var armor = DataHelpers.GetAllArmorWithSeries();
             var armorSets = armor.GroupBy(d => d.Series)
                 .Select(g => new ArmorSet()
@@ -140,8 +140,8 @@ namespace MHWildsArmour
 
             File.WriteAllText("armor-combined.json", armor.ToArray().ToJson());
 
-            //GenerateLocalFiles(armorSets);
-            //UpdateWikiPages(armorSets).Wait();
+            GenerateLocalFiles(armorSets);
+            UpdateWikiPages(armorSets).Wait();
             GenerateWikiJsonDb(armorSets);
         }
     }

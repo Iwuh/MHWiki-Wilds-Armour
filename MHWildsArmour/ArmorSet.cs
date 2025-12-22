@@ -133,7 +133,11 @@ namespace MHWildsArmour
             sb.AppendLine($"|Total Decos 2                      = {lvl2SlotCount}");
             sb.AppendLine($"|Total Decos 3                      = {lvl3SlotCount}");
 
-            sb.AppendLine($"|Total Defense                      = {validPieces.Sum(p => p!.Defense)}");
+            // All pieces have the same defense difference between level 1 and max level, so calculate it for one and multiply it by the valid piece count
+            var baseDefense = validPieces.Sum(p => p!.Defense);
+            var maxDefense = baseDefense + (Series.MaxLevel - 1) * Series.DefPerLevel * validPieces.Count;
+            sb.AppendLine($"|Total Defense                      = {baseDefense} → {maxDefense}");
+
             sb.AppendLine($"|Total Fire Res                     = {validPieces.Sum(p => p!.Resistance[0])}");
             sb.AppendLine($"|Total Water Res                    = {validPieces.Sum(p => p!.Resistance[1])}");
             sb.AppendLine($"|Total Thunder Res                  = {validPieces.Sum(p => p!.Resistance[2])}");
@@ -149,7 +153,7 @@ namespace MHWildsArmour
             var lvl1SlotCount = piece.SlotLevel.Count(s => s == "[1]Lv1");
             var lvl2SlotCount = piece.SlotLevel.Count(s => s == "[2]Lv2");
             var lvl3SlotCount = piece.SlotLevel.Count(s => s == "[3]Lv3");
-
+            var maxDefense = piece.Defense + (Series.MaxLevel - 1) * Series.DefPerLevel; 
 
             // For now, the only use of colours in an armour piece description is the (Full Armor Set) tag used for the Akuma gear.
             // Revisit this later if that changes.
@@ -169,7 +173,7 @@ namespace MHWildsArmour
             sb.AppendLine($"|Level 2 Decos         = {lvl2SlotCount}");
             sb.AppendLine($"|Level 3 Decos         = {lvl3SlotCount}");
             sb.AppendLine($"|Forging Cost          = {Series.Price}");
-            sb.AppendLine($"|Defense               = {piece.Defense}");
+            sb.AppendLine($"|Defense               = {piece.Defense} → {maxDefense}");
             sb.AppendLine($"|Fire Res              = {piece.Resistance[0]}");
             sb.AppendLine($"|Water Res             = {piece.Resistance[1]}");
             sb.AppendLine($"|Thunder Res           = {piece.Resistance[2]}");

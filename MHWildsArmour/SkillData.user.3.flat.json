@@ -4635,7 +4635,7 @@
         ],
         "_value": [
             115,
-            140,
+            160,
             0,
             0
         ]
@@ -4656,7 +4656,7 @@
         ],
         "_value": [
             120,
-            170,
+            200,
             0,
             0
         ]
@@ -4677,7 +4677,7 @@
         ],
         "_value": [
             130,
-            200,
+            250,
             0,
             0
         ]
@@ -5811,7 +5811,7 @@
         ],
         "_value": [
             130,
-            0,
+            103,
             0,
             0
         ]
@@ -6189,7 +6189,7 @@
         ],
         "_value": [
             70,
-            0,
+            90,
             0,
             0
         ]
@@ -6210,7 +6210,7 @@
         ],
         "_value": [
             50,
-            0,
+            80,
             0,
             0
         ]
@@ -6231,7 +6231,7 @@
         ],
         "_value": [
             20,
-            0,
+            70,
             0,
             0
         ]
@@ -7952,7 +7952,7 @@
             "[0]NONE"
         ],
         "_value": [
-            95,
+            80,
             0,
             0,
             0
@@ -7973,7 +7973,7 @@
             "[0]NONE"
         ],
         "_value": [
-            90,
+            65,
             0,
             0,
             0
@@ -8078,7 +8078,7 @@
             "[0]NONE"
         ],
         "_value": [
-            120,
+            180,
             15,
             0,
             0
@@ -8099,8 +8099,8 @@
             "[0]NONE"
         ],
         "_value": [
-            120,
-            25,
+            180,
+            30,
             0,
             0
         ]
@@ -8204,7 +8204,7 @@
             "[0]NONE"
         ],
         "_value": [
-            18,
+            23,
             0,
             0,
             0
@@ -8225,7 +8225,7 @@
             "[0]NONE"
         ],
         "_value": [
-            40,
+            50,
             0,
             0,
             0
@@ -8246,7 +8246,7 @@
             "[0]NONE"
         ],
         "_value": [
-            60,
+            90,
             25,
             0,
             0
@@ -8267,7 +8267,7 @@
             "[0]NONE"
         ],
         "_value": [
-            60,
+            90,
             50,
             0,
             0
@@ -8702,6 +8702,48 @@
         "_skillExplain": "0d54afcf-4a66-4bd1-a059-c3e04787a647",
         "_openSkill": [
             "[28227]HunterSkill_224",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE"
+        ],
+        "_value": [
+            109,
+            50,
+            0,
+            0
+        ]
+    },
+    {
+        "_Index": 448,
+        "_dataId": 517,
+        "_skillId": "[30815]HunterSkill_225",
+        "_SkillLv": 2,
+        "_skillName": "5bf60d78-3d9a-47cf-baf5-aebc970bda60",
+        "_skillExplain": "9fd89176-8818-434b-94d5-0507b68631a8",
+        "_openSkill": [
+            "[11543]HunterSkill_226",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE"
+        ],
+        "_value": [
+            100,
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "_Index": 449,
+        "_dataId": 518,
+        "_skillId": "[30815]HunterSkill_225",
+        "_SkillLv": 4,
+        "_skillName": "f61e835e-b273-44d9-b678-b3bafbb18199",
+        "_skillExplain": "ee588b89-4726-4689-8da6-7d6e2a3c1313",
+        "_openSkill": [
+            "[11543]HunterSkill_226",
             "[0]NONE",
             "[0]NONE",
             "[0]NONE",
@@ -9151,6 +9193,69 @@
         "_value": [
             40,
             20,
+            0,
+            0
+        ]
+    },
+    {
+        "_Index": 471,
+        "_dataId": 540,
+        "_skillId": "[30554]HunterSkill_238",
+        "_SkillLv": 1,
+        "_skillName": "0fb485b3-f103-40e8-aa6b-5661e8494ec9",
+        "_skillExplain": "77409ffd-89aa-4516-b9b7-802e211140db",
+        "_openSkill": [
+            "[30554]HunterSkill_238",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE"
+        ],
+        "_value": [
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    {
+        "_Index": 472,
+        "_dataId": 541,
+        "_skillId": "[5590]HunterSkill_239",
+        "_SkillLv": 2,
+        "_skillName": "457760b2-480e-4456-be09-786a89535497",
+        "_skillExplain": "31206536-f467-428d-b520-1b3caeb2ca48",
+        "_openSkill": [
+            "[9554]HunterSkill_242",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE"
+        ],
+        "_value": [
+            120,
+            2,
+            0,
+            0
+        ]
+    },
+    {
+        "_Index": 473,
+        "_dataId": 542,
+        "_skillId": "[5590]HunterSkill_239",
+        "_SkillLv": 4,
+        "_skillName": "90bbe091-58c9-4249-8cda-8359a59483a8",
+        "_skillExplain": "8de48e4e-985c-4094-bf8c-d92dc813e0d9",
+        "_openSkill": [
+            "[9554]HunterSkill_242",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE",
+            "[0]NONE"
+        ],
+        "_value": [
+            130,
+            4,
             0,
             0
         ]

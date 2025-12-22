@@ -59,6 +59,8 @@ namespace MHWildsArmour.Json
 
         public int MaxLevel { get; set; }
 
+        public int DefPerLevel { get; set; }
+
         public static ArmorSeriesDatum[] FromJson(string json) => JsonConvert.DeserializeObject<ArmorSeriesDatum[]>(json, MHWildsArmour.Json.ArmorSeriesConverter.Settings);
     }
 
