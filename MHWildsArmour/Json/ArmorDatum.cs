@@ -42,7 +42,7 @@ namespace MHWildsArmour.Json
         public long[] Resistance { get; set; }
 
         [JsonProperty("_SlotLevel", NullValueHandling = NullValueHandling.Ignore)]
-        public string[] SlotLevel { get; set; }
+        public string[] SlotLevelString { get; set; }
 
         [JsonProperty("_Skill", NullValueHandling = NullValueHandling.Ignore)]
         public string[] SkillId { get; set; }
@@ -56,6 +56,8 @@ namespace MHWildsArmour.Json
         public string Name { get; set; }
 
         public string Explain { get; set; }
+
+        public int[] SlotLevel { get; set; }
 
        // public ArmorSkill[] Skill { get; set; }
 

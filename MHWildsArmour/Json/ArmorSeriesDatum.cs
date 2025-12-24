@@ -61,6 +61,10 @@ namespace MHWildsArmour.Json
 
         public int DefPerLevel { get; set; }
 
+        public int? TranscendCost { get; set; }
+
+        public ArmorTranscendRecipeDatum TranscendRecipe { get; set; }
+
         public static ArmorSeriesDatum[] FromJson(string json) => JsonConvert.DeserializeObject<ArmorSeriesDatum[]>(json, MHWildsArmour.Json.ArmorSeriesConverter.Settings);
     }
 

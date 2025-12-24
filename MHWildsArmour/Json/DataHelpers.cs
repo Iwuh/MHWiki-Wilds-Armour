@@ -26,6 +26,14 @@ namespace MHWildsArmour.Json
             "[11]RARE7",
         ];
 
+        public static readonly string[] SlotLevelStrings =
+        [
+            "[0]NONE",
+            "[1]Lv1",
+            "[2]Lv2",
+            "[3]Lv3"
+        ];
+
         public static readonly Dictionary<string, string> SkillWikiIconFiles = new()
         {
             { "[0]INVALID",     "INVALID" },
@@ -219,6 +227,7 @@ namespace MHWildsArmour.Json
                 //d.Skill = d.SkillId.Select(i => armorSkillsOld.FirstOrDefault(s => i == s.SkillId)).ToArray();
                 d.SkillCommon = d.SkillId.Select(i => skillCommonData.FirstOrDefault(s => i == s.SkillId)).ToArray();
                 d.Recipe.Items = d.Recipe.ItemId.Select(i1 => itemData.FirstOrDefault(i2 => i1 == i2.ItemId)).ToArray();
+                d.SlotLevel = d.SlotLevelString.Select(s => Array.IndexOf(SlotLevelStrings, s)).ToArray();
                 return d;
             });
         }
@@ -227,7 +236,10 @@ namespace MHWildsArmour.Json
         {
             var armorSeriesData = ArmorSeriesDatum.FromJson(File.ReadAllText("ArmorSeriesData.user.3.flat.json"));
             var armorUpgradeData = ArmorUpgradeDatum.FromJson(File.ReadAllText("ArmorUpgradeData.user.3.flat.json"));
+            var armorTranscendCostData = ArmorTranscendCostDatum.FromJson(File.ReadAllText("ArmorSpUpgradeCostData.user.3.flat.json"));
+            var armorTranscendRecipeData = ArmorTranscendRecipeDatum.FromJson(File.ReadAllText("ArmorUpgradeRecipeData.user.3.flat.json"));
             var armorSeriesMsgs = WildsMsg.FromJson(File.ReadAllText("ArmorSeries.msg.23.json"));
+            var itemData = GetAllItem();
 
             //var armorMaxLevels = armorUpgradeData.GroupBy(d => d.Rare).ToDictionary(g => g.Key, g => g.Max(d => d.MaxLevel));
 
@@ -235,6 +247,11 @@ namespace MHWildsArmour.Json
             {
                 d.Name = m.Content[1];
                 return d;
+            })
+            .LeftJoin(armorTranscendRecipeData, d1 => d1.Series, d2 => d2.SeriesId, (d1, d2) =>
+            {
+                d1.TranscendRecipe = d2;
+                return d1;
             })
             .Select(s => 
             {
@@ -244,6 +261,15 @@ namespace MHWildsArmour.Json
                 //s.MaxLevel = (int)(armorMaxLevels[s.RareString] ?? 0);
                 s.MaxLevel = (int)(upgradeData.MaxLevel ?? 0);
                 s.DefPerLevel = (int)(upgradeData.DefUpValue ?? 0);
+
+                var transcendCostData = armorTranscendCostData.FirstOrDefault(d => d.Rare == s.RareString);
+                s.TranscendCost = (int?)transcendCostData?.Cost;
+
+                if (s.TranscendRecipe != null)
+                {
+                    s.TranscendRecipe.Items = s.TranscendRecipe.Item.Select(i1 => itemData.FirstOrDefault(i2 => i1 == i2.ItemId)).ToArray();
+                }
+
                 return s;
             });
         }

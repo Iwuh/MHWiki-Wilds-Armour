@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using MHWildsArmour.Json;
+using WikiClientLibrary.Generators;
 
 namespace MHWildsArmour
 {
@@ -126,9 +127,9 @@ namespace MHWildsArmour
                 sb.AppendLine($"<div>{{{{GenericItemLink|{Game}|{item.ItemName}|{fullIconType}|{item.WikiIconColor}}}}} x{totalQuantity}</div>");
             }
 
-            var lvl1SlotCount = validPieces.SelectMany(p => p!.SlotLevel).Count(s => s == "[1]Lv1");
-            var lvl2SlotCount = validPieces.SelectMany(p => p!.SlotLevel).Count(s => s == "[2]Lv2");
-            var lvl3SlotCount = validPieces.SelectMany(p => p!.SlotLevel).Count(s => s == "[3]Lv3");
+            var lvl1SlotCount = validPieces.SelectMany(p => p!.SlotLevelString).Count(s => s == "[1]Lv1");
+            var lvl2SlotCount = validPieces.SelectMany(p => p!.SlotLevelString).Count(s => s == "[2]Lv2");
+            var lvl3SlotCount = validPieces.SelectMany(p => p!.SlotLevelString).Count(s => s == "[3]Lv3");
             sb.AppendLine($"|Total Decos 1                      = {lvl1SlotCount}");
             sb.AppendLine($"|Total Decos 2                      = {lvl2SlotCount}");
             sb.AppendLine($"|Total Decos 3                      = {lvl3SlotCount}");
@@ -150,9 +151,9 @@ namespace MHWildsArmour
 
         public string GenerateArmorPieceTemplate(ArmorDatum piece)
         {
-            var lvl1SlotCount = piece.SlotLevel.Count(s => s == "[1]Lv1");
-            var lvl2SlotCount = piece.SlotLevel.Count(s => s == "[2]Lv2");
-            var lvl3SlotCount = piece.SlotLevel.Count(s => s == "[3]Lv3");
+            var lvl1SlotCount = piece.SlotLevelString.Count(s => s == "[1]Lv1");
+            var lvl2SlotCount = piece.SlotLevelString.Count(s => s == "[2]Lv2");
+            var lvl3SlotCount = piece.SlotLevelString.Count(s => s == "[3]Lv3");
             var maxDefense = piece.Defense + (Series.MaxLevel - 1) * Series.DefPerLevel; 
 
             // For now, the only use of colours in an armour piece description is the (Full Armor Set) tag used for the Akuma gear.
@@ -325,20 +326,22 @@ namespace MHWildsArmour
                 Name = piece.Name,
                 Rarity = Series.Rare,
                 ForgingCost = Series.Price ?? -1,
+                TranscendCost = Series.TranscendCost,
                 IconType = pieceTemplateIconTypeMap[piece.PartsType],
                 MaleImage = string.Empty, // TODO need renders
                 FemaleImage = string.Empty,
                 Description = cleanDescription,
                 Defense = piece.Defense ?? -1,
-                MaxDefense = piece.Defense + (Series.MaxLevel - 1) * 2 ?? -1, // TODO check that this is correct
+                MaxDefense = piece.Defense + (Series.MaxLevel - 1) * Series.DefPerLevel ?? -1, 
+                MaxLevel = Series.MaxLevel,
                 FireRes = piece.Resistance[0],
                 WaterRes = piece.Resistance[1],
                 ThunderRes = piece.Resistance[2],
                 IceRes = piece.Resistance[3],
                 DragonRes = piece.Resistance[4],
-                Decos1 = piece.SlotLevel.Count(s => s == "[1]Lv1"),
-                Decos2 = piece.SlotLevel.Count(s => s == "[2]Lv2"),
-                Decos3 = piece.SlotLevel.Count(s => s == "[3]Lv3"),
+                Decos1 = piece.SlotLevel.Count(s => s == 1),
+                Decos2 = piece.SlotLevel.Count(s => s == 2), 
+                Decos3 = piece.SlotLevel.Count(s => s == 3),
                 Decos4 = 0
             };
 
@@ -352,6 +355,49 @@ namespace MHWildsArmour
                 .Where(t => t.First != null)
                 .OrderByDescending(t => t.Second);
             wikiPiece.Materials = craftingMaterials.Select(m => new ArmorMaterialWikiDb { Name = m.First.ItemName, Quantity = m.Second }).ToList();
+
+            if (Series.TranscendRecipe != null)
+            {
+                var transcendMaterials = Series.TranscendRecipe.Items
+                    .Zip(Series.TranscendRecipe.ItemNum)
+                    .Where(t => t.First != null)
+                    .OrderByDescending(t => t.Second);
+                wikiPiece.TranscendMaterials = transcendMaterials.Select(m => new ArmorMaterialWikiDb { Name = m.First.ItemName, Quantity = m.Second }).ToList();
+            }
+            else
+            {
+                wikiPiece.TranscendMaterials = null;
+            }
+
+            // Rare 5 pieces get +1 to all 3 slots. Level 3 slots are unaffected.
+            // Rare 6 pieces get +1 to only the first two slots. Level 3 slots are unaffected.
+            // All other rarities get no slot changes when transcended.
+            if (Series.Rare == 5)
+            {
+                var transcendSlotLevels = piece.SlotLevel.Select(s => s < 3 ? s + 1 : s);
+                wikiPiece.TranscendDecos1 = transcendSlotLevels.Count(s => s == 1);
+                wikiPiece.TranscendDecos2 = transcendSlotLevels.Count(s => s == 2);
+                wikiPiece.TranscendDecos3 = transcendSlotLevels.Count(s => s == 3);
+                wikiPiece.TranscendDecos4 = 0;
+            }
+            else if (Series.Rare == 6)
+            {
+                var transcendSlotLevels = new int[3];
+                piece.SlotLevel.CopyTo(transcendSlotLevels, 0);
+                transcendSlotLevels[0] = transcendSlotLevels[0] < 3 ? transcendSlotLevels[0] + 1 : 3;
+                transcendSlotLevels[1] = transcendSlotLevels[1] < 3 ? transcendSlotLevels[1] + 1 : 3;
+                wikiPiece.TranscendDecos1 = transcendSlotLevels.Count(s => s == 1);
+                wikiPiece.TranscendDecos2 = transcendSlotLevels.Count(s => s == 2);
+                wikiPiece.TranscendDecos3 = transcendSlotLevels.Count(s => s == 3);
+                wikiPiece.TranscendDecos4 = 0;
+            }
+            else
+            {
+                wikiPiece.TranscendDecos1 = wikiPiece.Decos1;
+                wikiPiece.TranscendDecos2 = wikiPiece.Decos2;
+                wikiPiece.TranscendDecos3 = wikiPiece.Decos3;
+                wikiPiece.TranscendDecos4 = 0;
+            }
 
             return wikiPiece;
         }
@@ -368,6 +414,11 @@ namespace MHWildsArmour
             {
                 maleImage = $"{Game}-{Series.Name} Armor Male Render 001.webp";
                 femaleImage = $"{Game}-{Series.Name} Armor Female Render.webp";
+            }
+            else if (Series.Name == "Gelidron α")
+            {
+                maleImage = $"{Game}-{Series.Name} Armor Male Render 001.webp";
+                femaleImage = $"{Game}-{Series.Name} Armor Female Render 001.webp";
             }
             else
             {

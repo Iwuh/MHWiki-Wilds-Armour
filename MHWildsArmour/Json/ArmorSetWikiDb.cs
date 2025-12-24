@@ -66,6 +66,9 @@ namespace MHWildsArmour.Json
         [JsonProperty("Materials")]
         public List<ArmorMaterialWikiDb> Materials { get; set; }
 
+        [JsonProperty("TranscendMaterials")]
+        public List<ArmorMaterialWikiDb> TranscendMaterials { get; set; }
+
         [JsonProperty("Name")]
         public string Name { get; set; }
 
@@ -76,6 +79,10 @@ namespace MHWildsArmour.Json
         [JsonProperty("ForgingCost")]
         [JsonConverter(typeof(ParseStringConverter))]
         public long ForgingCost { get; set; }
+
+        [JsonProperty("TranscendCost")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long? TranscendCost { get; set; }
 
         [JsonProperty("IconType")]
         public string IconType { get; set; }
@@ -96,6 +103,10 @@ namespace MHWildsArmour.Json
         [JsonProperty("MaxDefense")]
         [JsonConverter(typeof(ParseStringConverter))]
         public long MaxDefense { get; set; }
+
+        [JsonProperty("MaxLevel")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long MaxLevel { get; set; }
 
         [JsonProperty("FireRes")]
         [JsonConverter(typeof(ParseStringConverter))]
@@ -132,6 +143,22 @@ namespace MHWildsArmour.Json
         [JsonProperty("Decos4")]
         [JsonConverter(typeof(ParseStringConverter))]
         public long Decos4 { get; set; }
+
+        [JsonProperty("TranscendDecos1")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long TranscendDecos1 { get; set; }
+
+        [JsonProperty("TranscendDecos2")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long TranscendDecos2 { get; set; }
+
+        [JsonProperty("TranscendDecos3")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long TranscendDecos3 { get; set; }
+
+        [JsonProperty("TranscendDecos4")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long TranscendDecos4 { get; set; }
     }
 
     public partial class ArmorMaterialWikiDb
