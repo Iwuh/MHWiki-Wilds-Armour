@@ -257,10 +257,13 @@ namespace MHWildsArmour.Json
             {
                 s.Rare = Array.IndexOf(RareStrings, s.RareString);
 
-                var upgradeData = armorUpgradeData.Where(d => d.Rare == s.RareString).OrderByDescending(d => d.MaxLevel).First();
+                var orderedUpgradeData = armorUpgradeData.Where(d => d.Rare == s.RareString).OrderByDescending(d => d.MaxLevel);
+                var baseUpgradeData = orderedUpgradeData.First(d => d.IsSpecialUpgrade == false);
+                var transcendUpgradeData = orderedUpgradeData.FirstOrDefault(d => d.IsSpecialUpgrade == true);
                 //s.MaxLevel = (int)(armorMaxLevels[s.RareString] ?? 0);
-                s.MaxLevel = (int)(upgradeData.MaxLevel ?? 0);
-                s.DefPerLevel = (int)(upgradeData.DefUpValue ?? 0);
+                s.MaxLevel = (int)(baseUpgradeData.MaxLevel ?? 0);
+                s.DefPerLevel = (int)(baseUpgradeData.DefUpValue ?? 0);
+                s.MaxLevelTranscend = (int?)transcendUpgradeData?.MaxLevel;
 
                 var transcendCostData = armorTranscendCostData.FirstOrDefault(d => d.Rare == s.RareString);
                 s.TranscendCost = (int?)transcendCostData?.Cost;

@@ -104,9 +104,17 @@ namespace MHWildsArmour.Json
         [JsonConverter(typeof(ParseStringConverter))]
         public long MaxDefense { get; set; }
 
+        [JsonProperty("MaxDefenseTranscend")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long MaxDefenseTranscend { get; set; }
+
         [JsonProperty("MaxLevel")]
         [JsonConverter(typeof(ParseStringConverter))]
         public long MaxLevel { get; set; }
+
+        [JsonProperty("MaxLevelTranscend")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long MaxLevelTranscend { get; set; }
 
         [JsonProperty("FireRes")]
         [JsonConverter(typeof(ParseStringConverter))]

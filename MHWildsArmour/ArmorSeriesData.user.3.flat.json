@@ -2016,6 +2016,20 @@
         "_IsOneSet": false
     },
     {
+        "_Index": 144,
+        "_Series": "[23957]ID_198",
+        "_Name": "363b7285-a1e7-436b-ac37-f4d1dcb7f143",
+        "_ModelVariety": "[0]BOTH",
+        "_ModId": 32,
+        "_ModSubMaleId": 300,
+        "_ModSubFemaleId": 301,
+        "_SortId": 254,
+        "_Rare": "[11]RARE7",
+        "_Price": 12000,
+        "_Color": "[-566087616]Type04",
+        "_IsOneSet": false
+    },
+    {
         "_Index": 145,
         "_Series": "[15655]ID_173",
         "_Name": "0f55d686-53b9-48ee-a70e-3b3d69ad5917",
@@ -2128,6 +2142,20 @@
         "_IsOneSet": false
     },
     {
+        "_Index": 153,
+        "_Series": "[25337]ID_191",
+        "_Name": "8d841efe-1bb7-4587-8509-e4867e5d1845",
+        "_ModelVariety": "[1]ONLY02",
+        "_ModId": 94,
+        "_ModSubMaleId": 0,
+        "_ModSubFemaleId": 0,
+        "_SortId": 308,
+        "_Rare": "[11]RARE7",
+        "_Price": 8000,
+        "_Color": "[-993752576]Type02",
+        "_IsOneSet": false
+    },
+    {
         "_Index": 154,
         "_Series": "[3633]ID_207",
         "_Name": "65a14ad9-419a-4f69-b0e6-8ba04924200b",
@@ -2166,6 +2194,34 @@
         "_SortId": 352,
         "_Rare": "[11]RARE7",
         "_Price": 12000,
+        "_Color": "[-993752576]Type02",
+        "_IsOneSet": false
+    },
+    {
+        "_Index": 157,
+        "_Series": "[3531]ID_226",
+        "_Name": "a0343435-078a-4397-82c9-64a4e20aea02",
+        "_ModelVariety": "[0]BOTH",
+        "_ModId": 104,
+        "_ModSubMaleId": 0,
+        "_ModSubFemaleId": 1,
+        "_SortId": 353,
+        "_Rare": "[11]RARE7",
+        "_Price": 8000,
+        "_Color": "[-993752576]Type02",
+        "_IsOneSet": false
+    },
+    {
+        "_Index": 158,
+        "_Series": "[14725]ID_227",
+        "_Name": "69ab1624-1cc1-4d15-bc9a-f6b4d03a2d2d",
+        "_ModelVariety": "[1]ONLY02",
+        "_ModId": 103,
+        "_ModSubMaleId": 0,
+        "_ModSubFemaleId": 0,
+        "_SortId": 400,
+        "_Rare": "[11]RARE7",
+        "_Price": 8000,
         "_Color": "[-993752576]Type02",
         "_IsOneSet": false
     },
@@ -2500,6 +2556,20 @@
         "_ModSubMaleId": 0,
         "_ModSubFemaleId": 1,
         "_SortId": 424,
+        "_Rare": "[11]RARE7",
+        "_Price": 8000,
+        "_Color": "[-993752576]Type02",
+        "_IsOneSet": false
+    },
+    {
+        "_Index": 183,
+        "_Series": "[4456]ID_216",
+        "_Name": "eb36b25d-1c47-4a34-8d4b-7bd69d666c47",
+        "_ModelVariety": "[0]BOTH",
+        "_ModId": 105,
+        "_ModSubMaleId": 0,
+        "_ModSubFemaleId": 1,
+        "_SortId": 425,
         "_Rare": "[11]RARE7",
         "_Price": 8000,
         "_Color": "[-993752576]Type02",

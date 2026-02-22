@@ -369,6 +369,17 @@ namespace MHWildsArmour
                 wikiPiece.TranscendMaterials = null;
             }
 
+            if (Series.MaxLevelTranscend.HasValue)
+            {
+                wikiPiece.MaxLevelTranscend = Series.MaxLevelTranscend.Value;
+                wikiPiece.MaxDefenseTranscend = piece.Defense + (Series.MaxLevelTranscend.Value - 1) * Series.DefPerLevel ?? -1;
+            }
+            else
+            {
+                wikiPiece.MaxLevelTranscend = wikiPiece.MaxLevel;
+                wikiPiece.MaxDefenseTranscend = wikiPiece.MaxDefense;
+            }
+
             // Rare 5 pieces get +1 to all 3 slots. Level 3 slots are unaffected.
             // Rare 6 pieces get +1 to only the first two slots. Level 3 slots are unaffected.
             // All other rarities get no slot changes when transcended.

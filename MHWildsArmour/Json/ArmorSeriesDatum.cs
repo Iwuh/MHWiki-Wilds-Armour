@@ -59,6 +59,8 @@ namespace MHWildsArmour.Json
 
         public int MaxLevel { get; set; }
 
+        public int? MaxLevelTranscend { get; set; }
+
         public int DefPerLevel { get; set; }
 
         public int? TranscendCost { get; set; }

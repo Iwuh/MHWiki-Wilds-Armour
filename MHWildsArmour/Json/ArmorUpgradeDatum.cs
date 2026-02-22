@@ -37,6 +37,9 @@ namespace MHWildsArmour.Json
 
         [JsonProperty("_Price", NullValueHandling = NullValueHandling.Ignore)]
         public long? Price { get; set; }
+
+        [JsonProperty("_IsSpecialUpgrade", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsSpecialUpgrade { get; set; }
     }
 
     public partial class ArmorUpgradeDatum
