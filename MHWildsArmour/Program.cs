@@ -1,11 +1,15 @@
-﻿using CsvHelper;
+﻿using System.CommandLine;
+using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
+using System.Globalization;
+using CsvHelper;
 using CsvHelper.Configuration;
 using MHWildsArmour.Json;
-using System.Globalization;
 using WikiClientLibrary;
 using WikiClientLibrary.Client;
 using WikiClientLibrary.Pages;
 using WikiClientLibrary.Sites;
+
 
 namespace MHWildsArmour
 {
@@ -119,30 +123,90 @@ namespace MHWildsArmour
             File.WriteAllText(Path.Combine("output", "armordb.json"), armordb.ToJson());
         }
 
-        static void Main(string[] args)
+        static ParseResult Parse(string[] args)
         {
-            Directory.CreateDirectory("output");
-
-            var blacklist = File.ReadAllLines("blacklist.txt");
-            var armor = DataHelpers.GetAllArmorWithSeries();
-            var armorSets = armor.GroupBy(d => d.Series)
-                .Select(g => new ArmorSet()
+            var rootCommand = new RootCommand("Armour page generator for monsterhunterwiki.org")
+            {
+                new Option<string>("--data-dir", "-d")
                 {
-                    Game = "MHWilds",
-                    Series = g.Key,
-                    HeadPiece = g.FirstOrDefault(d => d.PartsType == "[0]HELM"),
-                    ChestPiece = g.FirstOrDefault(d => d.PartsType == "[1]BODY"),
-                    ArmPiece = g.FirstOrDefault(d => d.PartsType == "[2]ARM"),
-                    WaistPiece = g.FirstOrDefault(d => d.PartsType == "[3]WAIST"),
-                    LegPiece = g.FirstOrDefault(d => d.PartsType == "[4]LEG")
-                })
-                .Where(s => !blacklist.Contains(s.Series.Name));
+                    Description = "Location of the data files. Defaults to ~/.local/share/MHWildsArmour/data on Linux and %LOCALAPPDATA%\\MHWildsArmour\\data on Windows.",
+                    Recursive = true,
+                    DefaultValueFactory = result => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MHWildsArmour", "data")
+                }
+            };
 
-            File.WriteAllText("armor-combined.json", armor.ToArray().ToJson());
+            var generateCommand = new Command("generate", "Generate pages for the wiki");
+            var generateLocalCommand = new Command("local", "Create files on the local PC")
+            {
+                new Option<string>("--out-dir", "-o")
+                {
+                    Description = "Directory to create the files in. Defaults to ~/.local/share/MHWildsArmour/out on Linux and %LOCALAPPDATA%\\MHWildsArmour\\out on Windows.",
+                    DefaultValueFactory = result => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MHWildsArmour", "out")
+                }
+            };
+            var generateRemoteCommand = new Command("remote", "Update the pages on the wiki");
+            rootCommand.Add(generateCommand);
+            generateCommand.Add(generateLocalCommand);
+            generateCommand.Add(generateRemoteCommand);
 
-            GenerateLocalFiles(armorSets);
-            UpdateWikiPages(armorSets).Wait();
-            GenerateWikiJsonDb(armorSets);
+            generateLocalCommand.SetAction(async result =>
+            {
+                throw new NotImplementedException();
+                return 0;
+            });
+            generateRemoteCommand.SetAction(async result =>
+            {
+                throw new NotImplementedException();
+                return 0;
+            });
+
+            var dataCommand = new Command("data", "Manage MH Wilds data files");
+            var dataCheckCommand = new Command("check", "Check if the current data files are up to date");
+            var dataUpdateCommand = new Command("update", "Update the data files");
+            rootCommand.Add(dataCommand);
+            dataCommand.Add(dataCheckCommand);
+            dataCommand.Add(dataUpdateCommand);
+
+            dataCheckCommand.SetAction(async result =>
+            {
+                throw new NotImplementedException();
+                return 0;
+            });
+            dataUpdateCommand.SetAction(async result =>
+            {
+                throw new NotImplementedException();
+                return 0;
+            });
+
+            return rootCommand.Parse(args);
+        }
+
+        static async Task Main(string[] args)
+        {
+            await Parse(args).InvokeAsync();
+
+            // Directory.CreateDirectory("output");
+
+            // var blacklist = File.ReadAllLines("blacklist.txt");
+            // var armor = DataHelpers.GetAllArmorWithSeries();
+            // var armorSets = armor.GroupBy(d => d.Series)
+            //     .Select(g => new ArmorSet()
+            //     {
+            //         Game = "MHWilds",
+            //         Series = g.Key,
+            //         HeadPiece = g.FirstOrDefault(d => d.PartsType == "[0]HELM"),
+            //         ChestPiece = g.FirstOrDefault(d => d.PartsType == "[1]BODY"),
+            //         ArmPiece = g.FirstOrDefault(d => d.PartsType == "[2]ARM"),
+            //         WaistPiece = g.FirstOrDefault(d => d.PartsType == "[3]WAIST"),
+            //         LegPiece = g.FirstOrDefault(d => d.PartsType == "[4]LEG")
+            //     })
+            //     .Where(s => !blacklist.Contains(s.Series.Name));
+
+            // File.WriteAllText("armor-combined.json", armor.ToArray().ToJson());
+
+            // GenerateLocalFiles(armorSets);
+            // UpdateWikiPages(armorSets).Wait();
+            // GenerateWikiJsonDb(armorSets);
         }
     }
 }
