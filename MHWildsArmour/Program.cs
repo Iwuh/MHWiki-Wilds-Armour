@@ -135,8 +135,8 @@ namespace MHWildsArmour
                 }
             };
 
-            var generateCommand = new Command("generate", "Generate pages for the wiki");
-            var generateLocalCommand = new Command("local", "Create files on the local PC")
+            var generateCommand = new Command("generate", "Generate pages for the wiki.");
+            var generateLocalCommand = new Command("local", "Create files on the local PC.")
             {
                 new Option<string>("--out-dir", "-o")
                 {
@@ -144,7 +144,19 @@ namespace MHWildsArmour
                     DefaultValueFactory = result => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MHWildsArmour", "out")
                 }
             };
-            var generateRemoteCommand = new Command("remote", "Update the pages on the wiki");
+            var generateRemoteCommand = new Command("remote", "Update the pages on the wiki.")
+            {
+                new Option<string>("--user", "-u")
+                {
+                    Description = "Username to login with.",
+                    Required = true
+                },
+                new Option<string>("--pass", "-p")
+                {
+                    Description = "Password to login with.",
+                    Required = true
+                }
+            };
             rootCommand.Add(generateCommand);
             generateCommand.Add(generateLocalCommand);
             generateCommand.Add(generateRemoteCommand);
@@ -155,24 +167,6 @@ namespace MHWildsArmour
                 return 0;
             });
             generateRemoteCommand.SetAction(async result =>
-            {
-                throw new NotImplementedException();
-                return 0;
-            });
-
-            var dataCommand = new Command("data", "Manage MH Wilds data files");
-            var dataCheckCommand = new Command("check", "Check if the current data files are up to date");
-            var dataUpdateCommand = new Command("update", "Update the data files");
-            rootCommand.Add(dataCommand);
-            dataCommand.Add(dataCheckCommand);
-            dataCommand.Add(dataUpdateCommand);
-
-            dataCheckCommand.SetAction(async result =>
-            {
-                throw new NotImplementedException();
-                return 0;
-            });
-            dataUpdateCommand.SetAction(async result =>
             {
                 throw new NotImplementedException();
                 return 0;
