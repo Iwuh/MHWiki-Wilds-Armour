@@ -191,16 +191,16 @@ namespace MHWildsArmour.Json
 
         };
 
-        public static IEnumerable<ArmorDatum> GetAllArmorWithSeries()
+        public static IEnumerable<ArmorDatum> GetAllArmorWithSeries(string dataPath)
         {
-            var armorData = ArmorDatum.FromJson(File.ReadAllText("ArmorData.user.3.flat.json"));
-            var armorMsgs = WildsMsg.FromJson(File.ReadAllText("Armor.msg.23.json"));
+            var armorData = ArmorDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorData.user.3.flat.json")));
+            var armorMsgs = WildsMsg.FromJson(File.ReadAllText(Path.Join(dataPath, "Armor.msg.23.json")));
             //var armorSkillsOld = ArmorSkill.FromJson(File.ReadAllText(@".\skillDict.json"));
-            var armorRecipeData = ArmorRecipeDatum.FromJson(File.ReadAllText("ArmorRecipeData.user.3.flat.json"));
+            var armorRecipeData = ArmorRecipeDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorRecipeData.user.3.flat.json")));
             //var items = Item.FromJson(File.ReadAllText(@".\items.json"));
-            var itemData = GetAllItem();
-            var armorSeriesData = GetAllArmorSeries();
-            var skillCommonData = GetAllSkillCommon();
+            var itemData = GetAllItem(dataPath);
+            var armorSeriesData = GetAllArmorSeries(dataPath);
+            var skillCommonData = GetAllSkillCommon(dataPath);
 
             return armorData.Join(armorMsgs.Entries, d => d.NameGuid, m => m.Guid, (d, m) =>
             {
@@ -232,14 +232,14 @@ namespace MHWildsArmour.Json
             });
         }
 
-        public static IEnumerable<ArmorSeriesDatum> GetAllArmorSeries()
+        public static IEnumerable<ArmorSeriesDatum> GetAllArmorSeries(string dataPath)
         {
-            var armorSeriesData = ArmorSeriesDatum.FromJson(File.ReadAllText("ArmorSeriesData.user.3.flat.json"));
-            var armorUpgradeData = ArmorUpgradeDatum.FromJson(File.ReadAllText("ArmorUpgradeData.user.3.flat.json"));
-            var armorTranscendCostData = ArmorTranscendCostDatum.FromJson(File.ReadAllText("ArmorSpUpgradeCostData.user.3.flat.json"));
-            var armorTranscendRecipeData = ArmorTranscendRecipeDatum.FromJson(File.ReadAllText("ArmorUpgradeRecipeData.user.3.flat.json"));
-            var armorSeriesMsgs = WildsMsg.FromJson(File.ReadAllText("ArmorSeries.msg.23.json"));
-            var itemData = GetAllItem();
+            var armorSeriesData = ArmorSeriesDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorSeriesData.user.3.flat.json")));
+            var armorUpgradeData = ArmorUpgradeDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorUpgradeData.user.3.flat.json")));
+            var armorTranscendCostData = ArmorTranscendCostDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorSpUpgradeCostData.user.3.flat.json")));
+            var armorTranscendRecipeData = ArmorTranscendRecipeDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorUpgradeRecipeData.user.3.flat.json")));
+            var armorSeriesMsgs = WildsMsg.FromJson(File.ReadAllText(Path.Join(dataPath, "ArmorSeries.msg.23.json")));
+            var itemData = GetAllItem(dataPath);
 
             //var armorMaxLevels = armorUpgradeData.GroupBy(d => d.Rare).ToDictionary(g => g.Key, g => g.Max(d => d.MaxLevel));
 
@@ -277,10 +277,10 @@ namespace MHWildsArmour.Json
             });
         }
 
-        public static IEnumerable<SkillCommonDatum> GetAllSkillCommon()
+        public static IEnumerable<SkillCommonDatum> GetAllSkillCommon(string dataPath)
         {
-            var skillCommonData = SkillCommonDatum.FromJson(File.ReadAllText("SkillCommonData.user.3.flat.json"));
-            var skillCommonMsgs = WildsMsg.FromJson(File.ReadAllText("SkillCommon.msg.23.json"));
+            var skillCommonData = SkillCommonDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "SkillCommonData.user.3.flat.json")));
+            var skillCommonMsgs = WildsMsg.FromJson(File.ReadAllText(Path.Join(dataPath, "SkillCommon.msg.23.json")));
 
             return skillCommonData.Join(skillCommonMsgs.Entries, d => d.SkillNameGuid, m => m.Guid, (d, m) =>
             {
@@ -304,10 +304,10 @@ namespace MHWildsArmour.Json
             });
         }
 
-        public static IEnumerable<ItemDatum> GetAllItem()
+        public static IEnumerable<ItemDatum> GetAllItem(string dataPath)
         {
-            var itemData = ItemDatum.FromJson(File.ReadAllText("itemData.user.3.flat.json"));
-            var itemMsgs = WildsMsg.FromJson(File.ReadAllText("Item.msg.23.json"));
+            var itemData = ItemDatum.FromJson(File.ReadAllText(Path.Join(dataPath, "itemData.user.3.flat.json")));
+            var itemMsgs = WildsMsg.FromJson(File.ReadAllText(Path.Join(dataPath, "Item.msg.23.json")));
 
             return itemData.Join(itemMsgs.Entries, d => d.ItemNameGuid, m => m.Guid, (d, m) =>
             {

@@ -70,7 +70,9 @@ def main():
 
     for p in user_paths:
         data = load_file(p)
-        write_file(flatten(data), os.path.join(data_out, os.path.basename(p)))
+        basename = os.path.basename(p)
+        filename, ext = os.path.splitext(basename)
+        write_file(flatten(data), os.path.join(data_out, filename + ".flat" + ext))
 
     for p in msg_paths:
         shutil.copy(p, os.path.join(data_out, os.path.basename(p)))

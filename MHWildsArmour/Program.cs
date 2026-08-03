@@ -129,7 +129,7 @@ namespace MHWildsArmour
             {
                 new Option<string>("--data-dir", "-d")
                 {
-                    Description = "Location of the data files. Defaults to ~/.local/share/MHWildsArmour/data on Linux and %LOCALAPPDATA%\\MHWildsArmour\\data on Windows.",
+                    Description = "Location of the input data files created by update.py.",
                     Recursive = true,
                     DefaultValueFactory = result => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MHWildsArmour", "data")
                 }
@@ -140,7 +140,7 @@ namespace MHWildsArmour
             {
                 new Option<string>("--out-dir", "-o")
                 {
-                    Description = "Directory to create the files in. Defaults to ~/.local/share/MHWildsArmour/out on Linux and %LOCALAPPDATA%\\MHWildsArmour\\out on Windows.",
+                    Description = "Directory to create the output files in.",
                     DefaultValueFactory = result => Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MHWildsArmour", "out")
                 }
             };
