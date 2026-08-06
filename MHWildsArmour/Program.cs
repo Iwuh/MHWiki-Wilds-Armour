@@ -1,9 +1,4 @@
 ﻿using System.CommandLine;
-using System.CommandLine.Invocation;
-using System.CommandLine.Parsing;
-using System.Globalization;
-using CsvHelper;
-using CsvHelper.Configuration;
 using MHWildsArmour.Json;
 using WikiClientLibrary;
 using WikiClientLibrary.Client;
@@ -34,15 +29,17 @@ namespace MHWildsArmour
             }
         }
 
-        static void GenerateLocalFiles(IEnumerable<ArmorSet> sets)
+        static void GenerateLocalFiles(IEnumerable<ArmorSet> sets, string outPath)
         {
-            File.WriteAllText(Path.Combine("output", "setlistpage.txt"), GenerateArmorListPage(sets));
+            Directory.CreateDirectory(outPath);
+
+            File.WriteAllText(Path.Combine(outPath, "setlistpage.txt"), GenerateArmorListPage(sets));
 
             var setPages = GenerateArmorSetPages(sets);
             foreach (var (set, page) in sets.Zip(setPages))
             {
                 var fileName = $"{set.Series.Name}.txt";
-                File.WriteAllText(Path.Combine("output", fileName), page);
+                File.WriteAllText(Path.Combine(outPath, fileName), page);
             }
         }
 
@@ -53,7 +50,7 @@ namespace MHWildsArmour
             return !string.Equals(filt1, filt2);
         }
 
-        static async Task UpdateWikiPages(IEnumerable<ArmorSet> sets)
+        static async Task UpdateWikiPages(IEnumerable<ArmorSet> sets, string user, string pass)
         {
             using var wikiClient = new WikiClient()
             {
@@ -63,7 +60,7 @@ namespace MHWildsArmour
             await site.Initialization;
             try
             {
-                site.LoginAsync("", "").Wait(); // TODO
+                await site.LoginAsync(user, pass);
             }
             catch (WikiClientException ex)
             {
@@ -123,6 +120,26 @@ namespace MHWildsArmour
             File.WriteAllText(Path.Combine("output", "armordb.json"), armordb.ToJson());
         }
 
+        static IEnumerable<ArmorSet> GetData(string dataPath)
+        {
+            //var blacklist = File.ReadAllLines("blacklist.txt");
+            var armor = DataHelpers.GetAllArmorWithSeries(dataPath);
+            var armorSets = armor.GroupBy(d => d.Series)
+                .Select(g => new ArmorSet()
+                {
+                    Game = "MHWilds",
+                    Series = g.Key,
+                    HeadPiece = g.FirstOrDefault(d => d.PartsType == "[0]HELM"),
+                    ChestPiece = g.FirstOrDefault(d => d.PartsType == "[1]BODY"),
+                    ArmPiece = g.FirstOrDefault(d => d.PartsType == "[2]ARM"),
+                    WaistPiece = g.FirstOrDefault(d => d.PartsType == "[3]WAIST"),
+                    LegPiece = g.FirstOrDefault(d => d.PartsType == "[4]LEG")
+                });
+                //.Where(s => !blacklist.Contains(s.Series.Name));
+
+            return armorSets;
+        }
+
         static ParseResult Parse(string[] args)
         {
             var rootCommand = new RootCommand("Armour page generator for monsterhunterwiki.org")
@@ -163,12 +180,14 @@ namespace MHWildsArmour
 
             generateLocalCommand.SetAction(async result =>
             {
-                throw new NotImplementedException();
+                var armorSets = GetData(result.GetRequiredValue<string>("--data-dir"));
+                GenerateLocalFiles(armorSets, result.GetRequiredValue<string>("--out-dir"));
                 return 0;
             });
             generateRemoteCommand.SetAction(async result =>
             {
-                throw new NotImplementedException();
+                var armorSets = GetData(result.GetRequiredValue<string>("--data-dir"));
+                await UpdateWikiPages(armorSets, result.GetRequiredValue<string>("--user"), result.GetRequiredValue<string>("--pass"));
                 return 0;
             });
 
